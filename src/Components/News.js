@@ -1,62 +1,66 @@
-import React, { Component } from 'react'
-import NewsItems from './NewsItems'
+import React, { useState, useEffect } from 'react';
+import NewsItems from './NewsItems';
+import PropTypes from 'prop-types';
 
-export default class News extends Component {
-    constructor() {
-        super();
-        this.state = {
-            articles: [],
-            loading: false,
-            page:1
-        }
+const News = (props) => {
+    const [articles, setArticles] = useState([])
+    const [page, setPage] = useState(1)
+    const [totalResults, setTotalResults] = useState(0)
+
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    async componentDidMount(){
-        let url = "https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=949a7ca84df3421f8f30a95b0613fedc&page=1&pageSize=9"
+
+    const newsUpdate = async ()=> {
+        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
         let data = await fetch(url);
         let parsedata = await data.json();
-        this.setState({articles : parsedata.articles, totalResults : parsedata.totalResults})
+        setArticles(parsedata.articles)
+        setTotalResults(parsedata.totalResults)
     }
-    showNext= async ()=>{
-        // if((this.state.page+1) > Math.ceil(this.State.totalResults/9)){
-                  
-        // }
-        // else{
-            let url = `https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=949a7ca84df3421f8f30a95b0613fedc&page=${this.state.page-1}&pageSize=9`
-            let data = await fetch(url);
-            let parsedata = await data.json();
-            this.setState({
-                page:this.state.page+1,
-                articles : parsedata.articles
-            })
-        // }
+    useEffect(() => {
+        document.title = `GO-News - ${capitalizeFirstLetter(props.category)} top headlines`;
+        newsUpdate();
+        //eslint-disable-next-line
+    }, []);
+
+    const showNext = async () => {
+        setPage(page + 1);
+        newsUpdate();
     }
-    showPrev= async ()=>{
-        let url = `https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=949a7ca84df3421f8f30a95b0613fedc&page=${this.state.page-1}&pageSize=9`
-        let data = await fetch(url);
-        let parsedata = await data.json();
-       this.setState({
-          page:this.state.page-1,
-          articles : parsedata.articles
-       })
+
+    const showPrev = async () => {
+        setPage(page - 1);
+        newsUpdate();
     }
-    render() {
-        return (
-            <div className='container my-3'>
-                <h1 className='text-center text-success'>Today's latest Top Headlines</h1>
-                <div className="row">
-                    {this.state.articles.map((element) => {
-                        return <div className='col-md-4' key={element.url}>
-                            <NewsItems title={element.title?element.title:""} description={element.description?element.description:""}
-                            newsUrl={element.url} imageUrl={element.urlToImage}/>
-                        </div>
-                    })
-                    }
-                </div>
-                <div className='container d-flex justify-content-between'>
-                    <button type='button' className='btn btn-dark' onClick={this.showPrev}>&larr; Previous</button>
-                    <button type='button' className='btn btn-dark'  onClick={this.showNext}>Next &rarr;</button>
-                </div>
+
+    return (
+        <div className='container my-75 ' style={{ "margin": "75px" }}>
+            <h1 className='text-center text-success'>Today's latest Top Headlines</h1>
+            <div className="row">
+                {articles.map((element) => {
+                    return <div className='col-md-4' key={element.url}>
+                        <NewsItems title={element.title ? element.title : ""} description={element.description ? element.description : ""}
+                            newsUrl={element.url} imageUrl={element.urlToImage} author={element.author} date={element.publishedAt} />
+                    </div>
+                })
+                }
             </div>
-        )
-    }
-    }
+            <div className='container d-flex justify-content-between'>
+                <button disabled={page <= 1} type='button' className='btn btn-dark' onClick={showPrev}>&larr; Previous</button>
+                <button disabled={page + 1 > Math.ceil(totalResults / props.pageSize)} type='button' className='btn btn-dark' onClick={showNext}>Next &rarr;</button>
+            </div>
+        </div>
+    )
+}
+News.defaultProps = {
+    country: "in",
+    pageSize: 6,
+    category: "general"
+}
+News.propTypes = {
+    country: PropTypes.string,
+    pageSize: PropTypes.number,
+    category: PropTypes.string,
+}
+export default News;
