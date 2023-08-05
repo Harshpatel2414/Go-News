@@ -14,7 +14,7 @@ const App = (props) => {
       <Router>
         <Navbar />
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/general">
             <News apiKey={apiKey} key="general" pageSize={pageSize} country={country} category="general" />
           </Route>
           <Route exact path="/sports">
