@@ -35,7 +35,7 @@ const News = (props) => {
     }
 
     return (
-        <div className='container my-75 ' style={{ "margin": "75px" }}>
+        <div className='container my-75 ' style={{ "margin": "75px 0" }}>
             <h1 className='text-center text-success'>Today's latest Top Headlines</h1>
             <div className="row">
                 {articles.map((element) => {
