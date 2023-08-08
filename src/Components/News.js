@@ -38,8 +38,8 @@ const News = (props) => {
         <div className='container my-75 ' style={{ "margin": "75px auto" }}>
             <h1 className='text-center text-success'>Today's latest Top Headlines</h1>
             <div className="row">
-                {articles.map((element) => {
-                    return <div className='col-md-4' key={element.url}>
+                {articles.map((element,index) => {
+                    return <div className='col-md-4' key={index}>
                         <NewsItems title={element.title ? element.title : ""} description={element.description ? element.description : ""}
                             newsUrl={element.url} imageUrl={element.urlToImage} author={element.author} date={element.publishedAt} />
                     </div>
