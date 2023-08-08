@@ -1,10 +1,15 @@
 import React from 'react'
 import Navbar from './Components/Navbar'
 import News from './Components/News'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 const App = (props) => {
-
+  // const navigate = useHistory()
+  //  useEffect(() => {
+  //    navigate.push("/general")
+  //    // eslint-disable-next-line
+  //  }, [])
+   
   const apiKey = process.env.REACT_APP_NEWS_API_KEY
   const pageSize = 6;
   const country = "in";
@@ -14,7 +19,9 @@ const App = (props) => {
       <Router>
         <Navbar />
         <Switch>
-          <Route exact path="/general"><News apiKey={apiKey} key="general" pageSize={pageSize} country={country} category="general" /></Route>
+          <Route exact path="/">
+            <News apiKey={apiKey} key="general" pageSize={pageSize} country={country} category="general" />
+            </Route>
           <Route exact path="/sports"><News apiKey={apiKey} key="sports" pageSize={pageSize} country={country} category="sports" /></Route>
           <Route exact path="/health"><News apiKey={apiKey} key="health" pageSize={pageSize} country={country} category="health" /></Route>
           <Route exact path="/business"><News apiKey={apiKey} key="business" pageSize={pageSize} country={country} category="business" /></Route>

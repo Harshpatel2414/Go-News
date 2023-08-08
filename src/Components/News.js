@@ -21,7 +21,7 @@ const News = (props) => {
     useEffect(() => {
         document.title = `GO-News - ${capitalizeFirstLetter(props.category)} top headlines`;
         newsUpdate();
-        //eslint-disable-next-line
+        // eslint-disable-next-line
     }, []);
 
     const showNext = async () => {
@@ -35,7 +35,7 @@ const News = (props) => {
     }
 
     return (
-        <div className='container my-75 ' style={{ "margin": "75px 0" }}>
+        <div className='container my-75 ' style={{ "margin": "75px auto" }}>
             <h1 className='text-center text-success'>Today's latest Top Headlines</h1>
             <div className="row">
                 {articles.map((element) => {
