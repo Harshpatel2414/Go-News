@@ -13,7 +13,8 @@ const News = (props) => {
 
     const newsUpdate = async ()=> {
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
-        let data = await fetch(url);
+        let data =  await fetch(url);
+        if(!data.ok) console.log(data)
         let parsedata = await data.json();
         setArticles(parsedata.articles)
         setTotalResults(parsedata.totalResults)
@@ -22,7 +23,7 @@ const News = (props) => {
         document.title = `GO-News - ${capitalizeFirstLetter(props.category)} top headlines`;
         newsUpdate();
         // eslint-disable-next-line
-    }, []);
+    }, [newsUpdate]);
 
     const showNext = async () => {
         setPage(page + 1);
