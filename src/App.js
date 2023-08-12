@@ -4,11 +4,6 @@ import News from './Components/News'
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 const App = (props) => {
-  // const navigate = useHistory()
-  //  useEffect(() => {
-  //    navigate.push("/general")
-  //    // eslint-disable-next-line
-  //  }, [])
    
   const apiKey = process.env.REACT_APP_NEWS_API_KEY
   const pageSize = 6;
