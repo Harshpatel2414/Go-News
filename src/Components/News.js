@@ -39,7 +39,7 @@ const News = (props) => {
         <div className='container my-75 ' style={{ "margin": "75px auto" }}>
             <h2 className='text-center text-success'>Today's latest Top Headlines</h2>
             <div className="row">
-                {articles && articles.map((element) => {
+                {articles.map((element) => {
                     return <div className='col-md-4' key={element.url}>
                         <NewsItems title={element.title ? element.title : ""} description={element.description ? element.description : ""}
                             newsUrl={element.url} imageUrl={element.urlToImage} author={element.author} date={element.publishedAt} />
