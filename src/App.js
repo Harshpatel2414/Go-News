@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 const App = (props) => {
    
-  const apiKey = process.env.REACT_APP_NEWS_API_KEY
+  const apiKey=process.env.REACT_APP_NEWS_API_KEY
   const pageSize = 6;
   const country = "in";
 
@@ -15,7 +15,7 @@ const App = (props) => {
         <Navbar />
         <Switch>
           <Route exact path="/">
-            <News apiKey={apiKey} key="general" pageSize={pageSize} country={country} category="general" />
+            <News apiKey={apiKey} key="world" pageSize={pageSize} country={country} category="world" />
             </Route>
           <Route exact path="/sports"><News apiKey={apiKey} key="sports" pageSize={pageSize} country={country} category="sports" /></Route>
           <Route exact path="/health"><News apiKey={apiKey} key="health" pageSize={pageSize} country={country} category="health" /></Route>
