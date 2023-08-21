@@ -16,8 +16,9 @@ const News = (props) => {
         const url =`https://newsdata.io/api/1/news?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&language=en&image=1&size=${props.pageSize}`
         let data =  await fetch(url);
         let parsedata = await data.json();
-        setResults(parsedata.results)
-        setTotalResults(parsedata.totalResults)
+        setResults(parsedata.results);
+        setTotalResults(parsedata.totalResults);
+        setPage(parsedata.nextPage);
     }
 
     useEffect(() => {
@@ -27,12 +28,13 @@ const News = (props) => {
     }, []);
 
     const fetchData = async () => {   
-        const url = `https://newsdata.io/api/1/news?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&language=en&image=1&size=${props.pageSize}`;
+        const url = `https://newsdata.io/api/1/news?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&language=en&image=1&size=${props.pageSize}&page=${page}`;
         setPage(page+1);
         let data = await fetch(url);
-        let parsedData = await data.json();
-        setResults(results.concat(parsedData.results));
-        setTotalResults(parsedData.totalResults);
+        let parsedata = await data.json();
+        setResults(results.concat(parsedata.results)); 
+        setTotalResults(parsedata.totalResults);
+        setPage(parsedata.nextPage)
     };
 
     return (
@@ -43,7 +45,7 @@ const News = (props) => {
                     next={fetchData}
                     hasMore={results.length !== totalResults}
                     loader={<p>Loading...</p>}
-                > 
+            > 
             <div className="row">
                 
                 {results && results.map((element) => {
